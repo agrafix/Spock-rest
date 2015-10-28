@@ -65,14 +65,17 @@ delete = wire S.DELETE
 patch :: RestCallable req resp xs n f ctx m => Path xs -> f -> S.SpockCtxT ctx m ()
 patch = wire S.PATCH
 
+-- | Convert 'HVect' to 'H.HList'
 vectToHlist :: HVect xs -> H.HList xs
 vectToHlist HNil = H.HNil
 vectToHlist (a :&: as) = H.HCons a (vectToHlist as)
 
+-- | Length of 'HVect' as 'HNat'
 type family HVectLenH (ts :: [*]) :: HNat where
     HVectLenH '[] = HZero
     HVectLenH (t ': ts) = HSucc (HVectLenH ts)
 
+-- | Type constraints for a rest callable function
 type RestCallable req resp xs n f ctx m =
     ( FromJSON req, ToJSON resp
     , HasRep xs, n ~ HVectLenH (req ': xs)
@@ -81,6 +84,7 @@ type RestCallable req resp xs n f ctx m =
     , MonadIO m
     )
 
+-- | Specify an action that will be run when a HTTP verb and the given route match
 wire ::
     forall req resp xs n f ctx m.
     ( RestCallable req resp xs n f ctx m )
