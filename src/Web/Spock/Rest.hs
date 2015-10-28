@@ -72,8 +72,8 @@ vectToHlist (a :&: as) = H.HCons a (vectToHlist as)
 
 -- | Length of 'HVect' as 'HNat'
 type family HVectLenH (ts :: [*]) :: HNat where
-    HVectLenH '[] = HZero
-    HVectLenH (t ': ts) = HSucc (HVectLenH ts)
+    HVectLenH '[] = 'HZero
+    HVectLenH (t ': ts) = 'HSucc (HVectLenH ts)
 
 -- | Type constraints for a rest callable function
 type RestCallable req resp xs n f ctx m =
