@@ -126,8 +126,8 @@ wire ::
     -> f
     -> S.SpockCtxT ctx m ()
 wire m _ path a =
-    let proxy :: Proxy ct
-        proxy = Proxy
+    let prxy :: Proxy ct
+        prxy = Proxy
 
         fun :: H.HList (req ': xs) -> S.ActionCtxT ctx m resp
         fun = hUncurry a
@@ -135,14 +135,14 @@ wire m _ path a =
         handler :: HVect xs -> S.ActionCtxT ctx m ()
         handler captures =
             do bsBody <- S.body
-               case crDecode proxy bsBody of
+               case crDecode prxy bsBody of
                    Left errMsg ->
                     do S.setStatus status500
                        text $ T.pack $ "Invalid JSON: " ++ errMsg
                    Right (req :: req) ->
                     do (result :: resp) <- fun (H.HCons req (vectToHlist captures))
-                       S.setHeader "Content-Type" (ctMimeType proxy)
-                       S.bytes (cwEncode proxy result)
+                       S.setHeader "Content-Type" (ctMimeType prxy)
+                       S.bytes (cwEncode prxy result)
 
         hook :: HVectElim xs (S.ActionCtxT ctx m ())
         hook = curry handler
