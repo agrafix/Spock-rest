@@ -11,14 +11,14 @@ module Web.Spock.Rest
     ( -- * Spock's route definition monad
       S.spock, S.SpockM, S.SpockCtxM
     , S.spockT, S.spockLimT, S.SpockT, S.SpockCtxT
-     -- * Defining routes
+      -- * Defining routes
     , S.Path, S.root, S.Var, S.var, S.static, (S.<//>)
-     -- * Rendering routes
+      -- * Rendering routes
     , S.renderRoute
-     -- * Content Encoders
+      -- * Content Encoders
     , ContentType(..), ContentWriter(..), ContentReader(..)
     , JSON(..)
-     -- * Hooking routes
+      -- * Hooking routes
     , S.subcomponent, S.prehook
     , get, post, getpost, head, put, delete, patch, wire
     , S.StdMethod (..)
