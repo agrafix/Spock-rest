@@ -12,9 +12,9 @@ newtype Resp = Resp Bool
 
 handleReq :: Req -> Int -> ActionCtxT ctx IO Resp
 handleReq (Req i) val =
-    return $ Resp $ if i then (val > 0) else (val < 0)
+    return $ Resp $ if i then val > 0 else val < 0
 
 main :: IO ()
 main =
     runSpock 3000 $ spockT id $
-    get ("foo" <//> var) handleReq
+    get JSON ("foo" <//> var) handleReq
