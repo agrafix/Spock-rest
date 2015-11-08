@@ -18,6 +18,7 @@ DSL for defining RESTful services in Spock (WIP)
 module Main where
 
 import Data.Aeson
+import Data.HVect
 import Web.Spock.Rest
 
 newtype Req = Req Bool
@@ -32,7 +33,7 @@ handleReq (Req i) val =
 main :: IO ()
 main =
     runSpock 3000 $ spockT id $
-    get JSON ("foo" <//> var) handleReq
+    get (singleton JSON) ("foo" <//> var) handleReq
 
 ```
 
